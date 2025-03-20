@@ -1,40 +1,3 @@
-# useFormState Hook in React 19
-
-## 📌 Overview  
-The `useFormState` hook is a custom React 19 hook designed for managing form state in a more structured and reusable way. It simplifies handling form inputs by reducing boilerplate code and improving readability.
-
----
-
-## 🚀 Installation  
-Ensure you have React 19 installed in your project:
-
-```
-npm install react@19
-📦 Hook Usage
-📌 1. Create the useFormState Hook
-Create a new file useFormState.js and add the following:
-
-import { useState } from "react";
-
-/**
- * useFormState - Custom React Hook for managing form state
- * @param {Object} initialValues - The initial state object of the form
- * @returns {[Object, Function]} - Returns the form state and a setter function
- */
-export function useFormState(initialValues) {
-  const [formState, setFormState] = useState(initialValues);
-
-  // Function to update form fields dynamically
-  const handleChange = (newValues) => {
-    setFormState((prev) => ({ ...prev, ...newValues }));
-  };
-
-  return [formState, handleChange];
-}
-📌 2. Using useFormState in a Registration Form
-Now, use this hook inside your RegistrationForm.js component:
-
-
 import { useFormState } from "./useFormState";
 import { useState } from "react";
 
@@ -95,20 +58,3 @@ export default function RegistrationForm() {
     </div>
   );
 }
-🎯 Key Features of useFormState
-✅ Minimal boilerplate – No need to handle useState manually for each field
-✅ Dynamic field updates – Updates multiple fields efficiently
-✅ Reusable – Can be used in different forms across the app
-
-📌 Advantages of Using useFormState in React 19
-🔹 Simplifies form state management
-🔹 Enhances readability & maintainability
-🔹 Optimized for controlled components
-🔹 Works seamlessly with modern React features
-
-📜 License
-This project is licensed under the MIT License.
-
-💡 Need Help?
-If you have any questions or issues, feel free to reach out! 🚀
-Happy Coding! 🎉
