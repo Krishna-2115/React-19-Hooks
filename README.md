@@ -1,40 +1,111 @@
-# useFormState Hook in React 19
+# 🚀 React 19 - File Upload & Form Management with Custom Hooks
 
-## 📌 Overview  
-The `useFormState` hook is a custom React 19 hook designed for managing form state in a more structured and reusable way. It simplifies handling form inputs by reducing boilerplate code and improving readability.
+This repository contains two modern React 19 projects:
+1. **File Upload Component** using `useActionState` for async state management.
+2. **Form Management System** using `useFormState` to streamline input handling.
+
+Both projects leverage **React 19**, **Tailwind CSS**, and feature optimized state handling with hooks.
 
 ---
 
-## 🚀 Installation  
-Ensure you have React 19 installed in your project:
+## 📂 Project 1: File Upload with `useActionState`
 
+A modern **file upload component** built with a reusable `useActionState` hook to efficiently manage async operations, real-time progress, retries, and errors.
+
+### ✨ Features
+✅ **Drag & Drop + Click-to-Select** for easy file selection  
+✅ **Real-time Progress Tracking** with smooth animations  
+✅ **Optimistic UI Updates** using `useOptimistic` (React 19)  
+✅ **Retry Failed Uploads** with automatic delay handling  
+✅ **Auto-Reset Support** for seamless user experience  
+✅ **Modern UI with Tailwind CSS & Lucide Icons**  
+
+### 📦 Installation
+Clone the repository and install dependencies:
+```bash
+git clone https://github.com/your-username/react19-projects.git
+cd react19-projects
+npm install
 ```
-npm install react@19
-📦 Hook Usage
-📌 1. Create the useFormState Hook
-Create a new file useFormState.js and add the following:
 
+### 🚀 Usage
+Import and use the component:
+```jsx
+import FileUploadExample from "./components/FileUploadExample";
+
+function App() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <FileUploadExample />
+    </div>
+  );
+}
+export default App;
+```
+
+### `useActionState` Hook Implementation
+```jsx
+import { useState, useCallback } from "react";
+
+function useActionState(action, { autoReset = false, retryLimit = 3, delayBetweenRetries = 2000 } = {}) {
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [attempts, setAttempts] = useState(0);
+  const [output, setOutput] = useState(null);
+
+  const execute = useCallback(async (...args) => {
+    setStatus("loading");
+    setError(null);
+    setProgress(0);
+    setAttempts(0);
+    setOutput(null);
+
+    try {
+      const result = await action(...args, setProgress);
+      setStatus("success");
+      setOutput(result);
+      if (autoReset) setTimeout(() => setStatus("idle"), 2000);
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+      setStatus("error");
+    }
+  }, [action, autoReset]);
+
+  return { status, error, progress, execute };
+}
+```
+
+---
+
+## 📂 Project 2: Form Management with `useFormState`
+
+A **custom React 19 hook** designed for managing form state efficiently, reducing boilerplate code, and improving readability.
+
+### ✨ Features
+✅ **Minimal Boilerplate** - No need to handle `useState` manually for each field  
+✅ **Dynamic Field Updates** - Updates multiple fields efficiently  
+✅ **Reusable Hook** - Can be used across different forms  
+✅ **Optimized for Controlled Components** - Works seamlessly with modern React features  
+
+### 🚀 Usage
+Create the `useFormState` hook in `useFormState.js`:
+```jsx
 import { useState } from "react";
 
-/**
- * useFormState - Custom React Hook for managing form state
- * @param {Object} initialValues - The initial state object of the form
- * @returns {[Object, Function]} - Returns the form state and a setter function
- */
 export function useFormState(initialValues) {
   const [formState, setFormState] = useState(initialValues);
 
-  // Function to update form fields dynamically
   const handleChange = (newValues) => {
     setFormState((prev) => ({ ...prev, ...newValues }));
   };
 
   return [formState, handleChange];
 }
-📌 2. Using useFormState in a Registration Form
-Now, use this hook inside your RegistrationForm.js component:
+```
 
-
+### Using `useFormState` in a Registration Form
+```jsx
 import { useFormState } from "./useFormState";
 import { useState } from "react";
 
@@ -95,20 +166,14 @@ export default function RegistrationForm() {
     </div>
   );
 }
-🎯 Key Features of useFormState
-✅ Minimal boilerplate – No need to handle useState manually for each field
-✅ Dynamic field updates – Updates multiple fields efficiently
-✅ Reusable – Can be used in different forms across the app
+```
 
-📌 Advantages of Using useFormState in React 19
-🔹 Simplifies form state management
-🔹 Enhances readability & maintainability
-🔹 Optimized for controlled components
-🔹 Works seamlessly with modern React features
+---
 
-📜 License
-This project is licensed under the MIT License.
+## 📜 License
+This project is **open-source** and available under the **MIT License**.
 
-💡 Need Help?
-If you have any questions or issues, feel free to reach out! 🚀
-Happy Coding! 🎉
+---
+
+🔗 **Follow for more React & Web Development Projects!** 🚀
+
