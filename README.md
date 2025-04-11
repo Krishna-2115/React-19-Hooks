@@ -1,44 +1,42 @@
-🚀 React 19 - File Upload, Form Management & Debounced State Hook
-This repository contains three modern React 19 projects:
+🚀 React-19-Hooks
+This repository contains three modern React 19 projects with optimized state management using hooks:
 
-File Upload Component using useActionState for async state management.
+File Upload Component - Using useActionState for async state management.
 
-Form Management System using useFormState to streamline input handling.
+Form Management System - Using useFormState for streamlined input handling.
 
-Debounced State Hook (useDebouncedState) for optimizing performance in search inputs or API calls.
+Debounced State Hook - Using useDebouncedState for performance optimization in search inputs or API calls.
+
+Local Storage State Hook - Using useLocalStorageState for persistent state management with localStorage.
 
 All projects leverage React 19, Tailwind CSS, and optimized state management using hooks.
 
----
+📂 Project 1: File Upload with useActionState
+A modern file upload component built with a reusable useActionState hook to efficiently manage async operations, real-time progress, retries, and errors.
 
-## 📂 Project 1: File Upload with `useActionState`
+✨ Features
+✅ Drag & Drop + Click-to-Select for easy file selection
 
-A modern **file upload component** built with a reusable `useActionState` hook to efficiently manage async operations, real-time progress, retries, and errors.
+✅ Real-time Progress Tracking with smooth animations
 
-### ✨ Features
+✅ Optimistic UI Updates using useOptimistic (React 19)
 
-✅ **Drag & Drop + Click-to-Select** for easy file selection  
-✅ **Real-time Progress Tracking** with smooth animations  
-✅ **Optimistic UI Updates** using `useOptimistic` (React 19)  
-✅ **Retry Failed Uploads** with automatic delay handling  
-✅ **Auto-Reset Support** for seamless user experience  
-✅ **Modern UI with Tailwind CSS & Lucide Icons**
+✅ Retry Failed Uploads with automatic delay handling
 
-### 📦 Installation
+✅ Auto-Reset Support for seamless user experience
 
+✅ Modern UI with Tailwind CSS & Lucide Icons
+
+📦 Installation
 Clone the repository and install dependencies:
 
-```bash
 git clone https://github.com/your-username/react19-projects.git
 cd react19-projects
 npm install
-```
-
-### 🚀 Usage
-
+🚀 Usage
 Import and use the component:
 
-```jsx
+
 import FileUploadExample from "./components/FileUploadExample";
 
 function App() {
@@ -49,17 +47,11 @@ function App() {
   );
 }
 export default App;
-```
+useActionState Hook Implementation
 
-### `useActionState` Hook Implementation
-
-```jsx
 import { useState, useCallback } from "react";
 
-function useActionState(
-  action,
-  { autoReset = false, retryLimit = 3, delayBetweenRetries = 2000 } = {}
-) {
+function useActionState(action, { autoReset = false, retryLimit = 3, delayBetweenRetries = 2000 } = {}) {
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -89,26 +81,22 @@ function useActionState(
 
   return { status, error, progress, execute };
 }
-```
+📂 Project 2: Form Management with useFormState
+A custom React 19 hook designed for managing form state efficiently, reducing boilerplate code, and improving readability.
 
----
+✨ Features
+✅ Minimal Boilerplate - No need to handle useState manually for each field
 
-## 📂 Project 2: Form Management with `useFormState`
+✅ Dynamic Field Updates - Updates multiple fields efficiently
 
-A **custom React 19 hook** designed for managing form state efficiently, reducing boilerplate code, and improving readability.
+✅ Reusable Hook - Can be used across different forms
 
-### ✨ Features
+✅ Optimized for Controlled Components - Works seamlessly with modern React features
 
-✅ **Minimal Boilerplate** - No need to handle `useState` manually for each field  
-✅ **Dynamic Field Updates** - Updates multiple fields efficiently  
-✅ **Reusable Hook** - Can be used across different forms  
-✅ **Optimized for Controlled Components** - Works seamlessly with modern React features
+🚀 Usage
+Create the useFormState hook in useFormState.js:
 
-### 🚀 Usage
 
-Create the `useFormState` hook in `useFormState.js`:
-
-```jsx
 import { useState } from "react";
 
 export function useFormState(initialValues) {
@@ -120,11 +108,8 @@ export function useFormState(initialValues) {
 
   return [formState, handleChange];
 }
-```
+Using useFormState in a Registration Form
 
-### Using `useFormState` in a Registration Form
-
-```jsx
 import { useFormState } from "./useFormState";
 import { useState } from "react";
 
@@ -200,51 +185,89 @@ export default function RegistrationForm() {
     </div>
   );
 }
-```
-
 📂 Project 3: Debounced State Hook (useDebouncedState)
 A custom React 19 hook that introduces a debounced state update mechanism to improve performance in scenarios like search inputs, API calls, or filtering large datasets.
 
 ✨ Features
 ✅ Eliminates Unnecessary Renders - Prevents frequent state updates for fast-typing users
+
 ✅ Ideal for Search Inputs & API Calls - Reduces API call frequency
+
 ✅ Adjustable Delay - Fully customizable debounce time
+
 ✅ Optimized for Performance - Uses useEffect with cleanup
 
 🚀 Hook Implementation: useDebouncedState
 Create useDebouncedState.js:
 
+
 import { useState, useEffect } from "react";
 
-/\*\*
-
-- Custom hook to debounce state updates.
-- @param {any} initialValue - The initial state value.
-- @param {number} delay - Debounce delay in milliseconds.
-- @returns {[any, function]} - The debounced state and setter function.
-  \*/
-  export function useDebouncedState(initialValue, delay = 500) {
+/**
+ * Custom hook to debounce state updates.
+ * @param {any} initialValue - The initial state value.
+ * @param {number} delay - Debounce delay in milliseconds.
+ * @returns {[any, function]} - The debounced state and setter function.
+ */
+export function useDebouncedState(initialValue, delay = 500) {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
 
-useEffect(() => {
-const handler = setTimeout(() => {
-setDebouncedValue(value);
-}, delay);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
     return () => clearTimeout(handler);
+  }, [value, delay]);
 
-}, [value, delay]);
-
-return [debouncedValue, setValue];
+  return [debouncedValue, setValue];
 }
+📂 Project 4: Local Storage State Hook (useLocalStorageState)
+A custom React 19 hook to sync state with localStorage, ensuring persistence across page reloads.
 
----
+✨ Features
+✅ Persistent State - Automatically syncs state with localStorage
 
-## 📜 License
+✅ Customizable Key - Easily configure which key to use for localStorage
 
-This project is **open-source** and available under the **MIT License**.
+✅ Auto Sync - Automatically updates localStorage when state changes
 
----
+🚀 Hook Implementation: useLocalStorageState
+Create useLocalStorageState.js:
 
-🔗 **Follow for more React & Web Development Projects!** 🚀
+
+import { useState, useEffect } from "react";
+
+/**
+ * Custom hook to manage state with localStorage.
+ * @param {string} key - The key for storing data in localStorage.
+ * @param {any} initialValue - The initial state value.
+ * @returns {[any, function]} - The stored state and setter function.
+ */
+export function useLocalStorageState(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error("Error setting localStorage value:", error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+📜 License
+This project is open-source and available under the MIT License.
+
+🔗 Follow for more React & Web Development Projects! 🚀
